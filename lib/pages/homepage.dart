@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_payment_app/component/colors.dart';
+import 'package:flutter_payment_app/pages/payment_page.dart';
 import 'package:flutter_payment_app/widgets/buttons.dart';
 import 'package:flutter_payment_app/widgets/large_button.dart';
 import 'package:flutter_payment_app/widgets/textsize.dart';
+import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,28 +28,6 @@ class _HomePageState extends State<HomePage> {
             _headSection(),
             _listBills(),
             _payButton(),
-            Positioned(
-              left: 0,
-              top: 100,
-              child: Text(
-                'My Bills',
-                style: TextStyle(
-                    fontSize: 70,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF293952)),
-              ),
-            ),
-            Positioned(
-              left: 40,
-              top: 80,
-              child: Text(
-                'My Bills',
-                style: TextStyle(
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-            ),
           ],
         ),
       ),
@@ -337,8 +317,36 @@ class _HomePageState extends State<HomePage> {
         child: AppLargeButton(
           text: "Pay All Bills",
           textColor: Colors.white,
+          onTap: () {
+            Get.to(() => PaymentPage());
+          },
         ));
   }
 
-  _textContainer() {}
+  _textContainer() {
+    return Stack(
+      children: [
+        Positioned(
+          left: 0,
+          top: 100,
+          child: Text(
+            'My Bills',
+            style: TextStyle(
+                fontSize: 70,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF293952)),
+          ),
+        ),
+        Positioned(
+          left: 40,
+          top: 80,
+          child: Text(
+            'My Bills',
+            style: TextStyle(
+                fontSize: 50, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+        ),
+      ],
+    );
+  }
 }

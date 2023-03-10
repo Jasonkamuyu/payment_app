@@ -1,0 +1,204 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_payment_app/component/colors.dart';
+import 'package:flutter_payment_app/widgets/buttons.dart';
+import 'package:flutter_payment_app/widgets/large_button.dart';
+import 'package:get/get.dart';
+
+class PaymentPage extends StatelessWidget {
+  const PaymentPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+        body: Container(
+      height: h,
+      width: w,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage("images/paymentbackground.png"),
+            fit: BoxFit.fill),
+      ),
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.only(top: 80, left: 20, right: 20),
+            width: double.maxFinite,
+            height: h * 0.14,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("images/success.png"),
+                  fit: BoxFit.fitWidth),
+            ),
+          ),
+          Text(
+            'Success',
+            style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: AppColor.mainColor),
+          ),
+          Text(
+            'Payment is Completed for 2 Bills',
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: AppColor.idColor),
+          ),
+          SizedBox(
+            height: h * 0.045,
+          ),
+          Container(
+            height: 160,
+            width: 350,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border:
+                    Border.all(width: 2, color: Colors.grey.withOpacity(.5))),
+            child: MediaQuery.removePadding(
+              removeTop: true,
+              context: context,
+              child: ListView.builder(
+                itemCount: 3,
+                itemBuilder: (_, index) {
+                  return Container(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: 20, top: 15, bottom: 10),
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: Colors.green),
+                              child: Icon(
+                                Icons.done,
+                                size: 30,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'KPLC',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColor.mainColor),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  'ID:433554',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColor.idColor),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  '',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColor.mainColor),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  '\KES2500 ',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColor.mainColor),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Divider(
+                          thickness: 2,
+                          color: Colors.grey.withOpacity(.5),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          SizedBox(
+            height: h * 0.05,
+          ),
+          Column(
+            children: [
+              Text(
+                "Total Amount",
+                style: TextStyle(fontSize: 20, color: AppColor.idColor),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "\KES2500",
+                style: TextStyle(
+                    fontSize: 30,
+                    color: AppColor.mainColor,
+                    fontWeight: FontWeight.bold),
+              )
+            ],
+          ),
+          SizedBox(
+            height: h * 0.14,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AppButtons(
+                icon: Icons.share,
+                onTap: () {},
+                text: 'Share',
+              ),
+              SizedBox(
+                width: 80,
+              ),
+              AppButtons(
+                icon: Icons.print_outlined,
+                onTap: () {},
+                text: 'Print',
+              ),
+            ],
+          ),
+          SizedBox(
+            height: h * 0.02,
+          ),
+          AppLargeButton(
+            text: 'DONE',
+            backgroundColor: Colors.white,
+            textColor: AppColor.mainColor,
+            onTap: () {
+              Get.back();
+            },
+          )
+        ],
+      ),
+    ));
+  }
+}
