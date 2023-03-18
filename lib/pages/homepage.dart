@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_payment_app/component/colors.dart';
+import 'package:flutter_payment_app/controllers/data_services_controller.dart';
 import 'package:flutter_payment_app/pages/payment_page.dart';
 import 'package:flutter_payment_app/widgets/buttons.dart';
 import 'package:flutter_payment_app/widgets/large_button.dart';
@@ -7,15 +8,18 @@ import 'package:flutter_payment_app/widgets/textsize.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  final DataServicesController _controller = Get.put(DataServicesController());
+
   @override
   Widget build(BuildContext context) {
+    // print(_controller.list);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
@@ -26,7 +30,18 @@ class _HomePageState extends State<HomePage> {
         child: Stack(
           children: [
             _headSection(),
-            _listBills(),
+            Obx(() {
+              if (_controller.loading == false) {
+                return Center(
+                  child: Container(
+                      width: 100,
+                      height: 100,
+                      child: CircularProgressIndicator()),
+                );
+              } else {
+                return _listBills();
+              }
+            }),
             _payButton(),
           ],
         ),
@@ -171,6 +186,7 @@ class _HomePageState extends State<HomePage> {
         removeTop: true,
         context: context,
         child: ListView.builder(
+          itemCount: _controller.list.length,
           itemBuilder: (_, index) {
             return Container(
               margin: const EdgeInsets.only(top: 20, right: 20),
@@ -209,7 +225,8 @@ class _HomePageState extends State<HomePage> {
                                   border:
                                       Border.all(width: 3, color: Colors.grey),
                                   image: DecorationImage(
-                                      image: AssetImage('images/kplc.png'),
+                                      image: AssetImage(
+                                          _controller.list[index]['img']),
                                       fit: BoxFit.fitWidth)),
                             ),
                             SizedBox(
@@ -219,7 +236,7 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Kenya Power",
+                                  _controller.list[index]["brand"],
                                   style: TextStyle(
                                       fontSize: 16,
                                       color: AppColor.mainColor,
@@ -241,7 +258,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         SizedText(
                             color: AppColor.green,
-                            text: "Auto Pay on 31st March"),
+                            text: _controller.list[index]["more"]),
                         SizedBox(
                           height: 5,
                         ),
@@ -252,24 +269,39 @@ class _HomePageState extends State<HomePage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              width: 80,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: AppColor.selectBackground),
-                              child: Center(
-                                child: Text(
-                                  'Select',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: AppColor.selectColor),
+                            GestureDetector(
+                              onTap: () {
+                                _controller.list[index]['status'] =
+                                    !_controller.list[index]['status'];
+
+                                _controller.list.refresh();
+                              },
+                              child: Container(
+                                width: 80,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: _controller.list[index]['status'] ==
+                                            false
+                                        ? AppColor.selectBackground
+                                        : AppColor.green),
+                                child: Center(
+                                  child: Text(
+                                    'Select',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: _controller.list[index]
+                                                    ['status'] ==
+                                                false
+                                            ? AppColor.selectColor
+                                            : Colors.white),
+                                  ),
                                 ),
                               ),
                             ),
                             Expanded(child: Container()),
                             Text(
-                              '\KES2500.00',
+                              '\KES' + _controller.list[index]['due'],
                               style: TextStyle(
                                   fontSize: 18,
                                   color: AppColor.mainColor,

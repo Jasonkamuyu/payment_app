@@ -1,0 +1,28 @@
+[
+    {
+        "brand": "KPLC",
+        "date": "22/03/2023",
+        "status": false,
+        "due": "2000.00",
+        "more": "Pay before",
+        "img" : "images/kplc.png"
+    },
+
+    {
+        "brand": "NETFLIX",
+        "date": "22/03/2023",
+        "status": false,
+        "due": "1100.00",
+        "more": "Due on",
+        "img" : "images/netflix.png"
+    },
+
+    {
+        "brand": "GoTv",
+        "date": "22/03/2023",
+        "status": false,
+        "due": "22000.00",
+        "more": "You must pay Now",
+        "img" : "images/gotv.png"
+    }
+]
